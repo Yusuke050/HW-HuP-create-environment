@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  3dpose:
+    shm_size: '5gb'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: 3dpose_container
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - ./:/src
+    stdin_open: true
+    tty: true
